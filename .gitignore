@@ -1,0 +1,8 @@
+.env
+env
+node_modules/
+.venv/
+.venv_stable/
+AiEng/
+chroma_db_storage/
+__pycache__/
