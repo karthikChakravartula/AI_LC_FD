@@ -1,4 +1,5 @@
 .env
+.notes
 env
 node_modules/
 .venv/

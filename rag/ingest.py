@@ -1,12 +1,19 @@
 import sys
+import os
 from pathlib import Path
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
-from chromadb import Collection
-from langchain_community.vectorstores import Chroma
-from langchain_core.documents import Document
+#from chromadb import Collection
+#from langchain_community.vectorstores import Chroma
+#from langchain_core.documents import Document
 import chromadb
+from rank_bm25 import BM25Okapi
+import pickle
+from lib.common import simple_tokenizer
 
+
+PERSIST_DIR = "./chroma_db_storage"
+    
 # 1. Force Python to include the root folder in its search path
 # Fix the import path for VS Code
 root_dir = str(Path(__file__).resolve().parent.parent)
@@ -18,7 +25,8 @@ def importing_to_vector_database(table) :
     #embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
     embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     processed_documents = []
-    PERSIST_DIR = "./chroma_db_storage"
+    docIds = []
+    metaDataIDS = []
     COLLECTION_NAME = "langchain"
     splitter = RecursiveCharacterTextSplitter(chunk_size=200, chunk_overlap=20, separators=["\n\n","\n",". "," "])
     try:
@@ -31,44 +39,69 @@ def importing_to_vector_database(table) :
         text = f"Account: {a['name'] or ''}\nStatus: {a['status'] or ''}\nDescription: {a['description'] or ''}"
         chunks = splitter.split_text(text)
         for j, chunk in enumerate(chunks):
+            unique_chunk_id = f"{a['id']}_chunk_{j}"
         # Create a LangChain Document object for each chunk
-            doc = Document(
-                page_content=chunk,
-                metadata = {
-                    "source_table": table,
-                    "source_name": a['name'],
-                    "supabase_id": a['id'],
-                    "chunk_index": j
-                    },
-            )
-            processed_documents.append(doc)
+            # doc = Document(
+            #     page_content=chunk,
+            metadata = {
+            "source_table": table,
+            "source_name": a['name'],
+            "supabase_id": a['id'],
+            "chunk_index": j
+            }
+            #     id=unique_chunk_id
+            # )
+            processed_documents.append(chunk)
+            metaDataIDS.append(metadata)
+            docIds.append(unique_chunk_id)
         
 
     print(f"Created {len(processed_documents)} total chunks from Supabase data.")
 
-    #PERSIST_DIR = "./chroma_db_storage"
-
     print("Embedding chunks locally and saving to disk...")
-    vector_store = Chroma.from_documents(
+    collection = client.get_or_create_collection(COLLECTION_NAME)
+    # vector_store = Chroma.from_documents(
+    #     documents=processed_documents,
+    #     embedding=embedding_model,
+    #     persist_directory=PERSIST_DIR,
+    #     collection_name=COLLECTION_NAME,
+    # )
+    collection.add(
         documents=processed_documents,
-        embedding=embedding_model,
-        persist_directory=PERSIST_DIR,
-        collection_name=COLLECTION_NAME
+        metadatas=metaDataIDS,
+        ids=docIds
     )
+
     print(f"Successfully saved vector database to: {PERSIST_DIR}")
 
-    print(f"collection : {vector_store._collection.count()}")
+    print(f"collection : {collection.count()}")
+    return collection.get();
+    
+def setBM25Index(processdocs):
+    tokenized_corpus = [
+        simple_tokenizer(doc) for doc in processdocs.get("documents", [])
+    ]
+    bm25_index = BM25Okapi(tokenized_corpus)
+    payload = {
+        "index": bm25_index,
+        "documents": processdocs.get("documents", []),
+        "tokenized_corpus": tokenized_corpus,
+        "metaData": processdocs.get("metadatas", []),
+    }
+    
+    # Save safely
+    filepath = os.path.join(PERSIST_DIR, "bm25_index.pkl")
+    with open(filepath, "wb") as f:
+        pickle.dump(payload, f)
+        
+    print(f"Index successfully saved to {filepath}")
 
-    # 6. Test Retrieval with Citation Metadata
-    query = "which company just closed a funding round"
-    results = vector_store.similarity_search(query, k=3)
+    #print("SUCCESS: Both Chroma and BM25 index are saved and ready!")
 
-    print("\n--- Test Query Results ---")
-    for doc in results:
-        print(f"Matching Text: '{doc.page_content}'")
-        print(f"Source Citation -> Table: {doc.metadata['source_table']}, Name : {doc.metadata['source_name']} , Row ID: {doc.metadata['supabase_id']}")
+def ingest():
+    processdocs = importing_to_vector_database('accounts')
+    setBM25Index(processdocs)
+    print("\n\nSUCCESS: Both Chroma and BM25 index are saved and ready!")
+    #bm25_search("Tell me about Organization specializing in media streaming technology")
 
-
-
-
-importing_to_vector_database('accounts')
+ingest()
