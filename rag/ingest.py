@@ -2,14 +2,10 @@ import sys
 import os
 from pathlib import Path
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_huggingface import HuggingFaceEmbeddings
-#from chromadb import Collection
-#from langchain_community.vectorstores import Chroma
-#from langchain_core.documents import Document
 import chromadb
 from rank_bm25 import BM25Okapi
 import pickle
-from lib.common import simple_tokenizer
+from lib.common import simple_tokenizer, get_embedding_function
 
 
 PERSIST_DIR = "./chroma_db_storage"
@@ -23,7 +19,7 @@ from src.my_app.supabase_client import fetch_records
 
 def importing_to_vector_database(table) :
     #embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
-    embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+    embedding_model = get_embedding_function()
     processed_documents = []
     docIds = []
     metaDataIDS = []
@@ -40,17 +36,14 @@ def importing_to_vector_database(table) :
         chunks = splitter.split_text(text)
         for j, chunk in enumerate(chunks):
             unique_chunk_id = f"{a['id']}_chunk_{j}"
-        # Create a LangChain Document object for each chunk
-            # doc = Document(
-            #     page_content=chunk,
+        
             metadata = {
             "source_table": table,
             "source_name": a['name'],
             "supabase_id": a['id'],
             "chunk_index": j
             }
-            #     id=unique_chunk_id
-            # )
+            
             processed_documents.append(chunk)
             metaDataIDS.append(metadata)
             docIds.append(unique_chunk_id)
@@ -59,13 +52,8 @@ def importing_to_vector_database(table) :
     print(f"Created {len(processed_documents)} total chunks from Supabase data.")
 
     print("Embedding chunks locally and saving to disk...")
-    collection = client.get_or_create_collection(COLLECTION_NAME)
-    # vector_store = Chroma.from_documents(
-    #     documents=processed_documents,
-    #     embedding=embedding_model,
-    #     persist_directory=PERSIST_DIR,
-    #     collection_name=COLLECTION_NAME,
-    # )
+    collection = client.get_or_create_collection(COLLECTION_NAME, embedding_function=embedding_model)
+    
     collection.add(
         documents=processed_documents,
         metadatas=metaDataIDS,
@@ -96,12 +84,10 @@ def setBM25Index(processdocs):
         
     print(f"Index successfully saved to {filepath}")
 
-    #print("SUCCESS: Both Chroma and BM25 index are saved and ready!")
 
 def ingest():
     processdocs = importing_to_vector_database('accounts')
     setBM25Index(processdocs)
     print("\n\nSUCCESS: Both Chroma and BM25 index are saved and ready!")
-    #bm25_search("Tell me about Organization specializing in media streaming technology")
-
+    
 ingest()

@@ -4,7 +4,7 @@ from langchain_community.vectorstores import Chroma
 from google import genai
 import os
 from dotenv import load_dotenv 
-from lib.common import simple_tokenizer
+from lib.common import simple_tokenizer, get_embedding_function
 import pickle
 import numpy as np
 
@@ -15,39 +15,33 @@ def get_Apikey():
     return os.getenv("GEMINI_API_KEY")
 
 def retreiveChromaDb(question , k = 5) :
-   embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-   db = Chroma(persist_directory=PERSIST_DIR, embedding_function=embedding_model)
-   res = db.similarity_search(question, k)
-   print(f"From Chroma \n\n {'\n\n'.join([r.page_content for r in res])}")
-   return res
+   client = chromadb.PersistentClient(path=PERSIST_DIR)
+   collection = client.get_collection("langchain", embedding_function=get_embedding_function())
+   results = collection.query(query_texts=[question], n_results=k)
+   res_list = [{
+       "id" : results["ids"][0][idx],
+       "document" : results["documents"][0][idx],
+       "metadata" : results["metadatas"][0][idx],
+   } for idx in range(len(results["ids"][0]))]
+   print("From Chroma")
+   print(res_list)
+   return res_list
 
-def createPromptAndCallLLM(ReciprocalRank :list[str], chromaList : list[str] , question):
+def createPromptAndCallLLM(ReciprocalRank :list[str], chromaList : list[str] , bm25List : list[str], question):
 
     formatted_items = []
+    all_docs = {d["metadata"]["supabase_id"]: d for d in chromaList + bm25List}
 
     for doc_id, score in ReciprocalRank[:5]:
-            # 1. Find matching documents
-            matches = [r for r in chromaList if r.metadata.get("supabase_id") == doc_id]
-            
-            # 2. Format the matching documents
-            doc_strings = [
-                f"Content : {r.page_content}, Id : {r.metadata.get('supabase_id')}, Source Name : {r.metadata.get('source_name')}"
-                for r in matches
-            ]
-            
-            # 3. Combine with the score
+            doc = all_docs.get(doc_id)
+            if doc:
+                doc_strings = [f"Content : {doc['document']}, Id : {doc['metadata']['supabase_id']}, Source Name : {doc['metadata']['source_name']}"]
+           
             combined_str = f"{', '.join(doc_strings)} , Score : {score}"
             formatted_items.append(combined_str)
 
             context_text = "\n\n".join(formatted_items)
-       #context_text = "\n\n".join([f"{[f"Content : {r.page_content}, Id : {r.metadata.get("supabase_id")}, Source Name : {r.metadata.get("source_name")}" for r in chromaList if r.metadata.get("supabse_id") == doc_id]} , Score : {score}" for doc_id, score in ReciprocalRank[:5]])
-
-
-
-       #raw_text_chunks = [f"{doc.page_content} , Name : {doc.metadata.get("source_name")}, RowId : {doc.metadata.get("supabase_id")}" for doc in results]
-       #print("\n\n".join(raw_text_chunks))
-       #combined_context = "\n\n".join(raw_text_chunks)
-       #print(combined_context)
+ 
     prompt = f"""You are a precise assistant that answers questions based ONLY on the provided context.
     
                 `### Context
@@ -107,41 +101,15 @@ def bm25_search(question, k=5):
 
 
     return results
-
-    # with open(pickle_path, "rb") as f:
-    #     bm25_index, processed_documents = pickle.load(f)
-
-    # print(f"Index corpus size: {bm25_index.corpus_size}")
-    # print(f"Processed documents size: {len(processed_documents)}")
-
-    # # 2. Clean and chop the user's question
-    # tokenized_query = simple_tokenizer(question)
-
-    # # 3. Ask BM25 to find and return the top-k matching documents
-    # top_docs = bm25_index.get_top_n(
-    #     tokenized_query, processed_documents, n=k
-    # )
-
-    # all_scores = bm25_index.get_scores(tokenized_query)
-
-    # for doc in top_docs:
-    #     # Find where this document lives in the original list to grab its score
-    #     doc_index = processed_documents.index(doc)
-    #     # Attach the score property dynamically
-    #     score = all_scores[doc_index]
-
-    #     print(f"Content \n {doc}\n{doc_index}\n{score}\n\n")
-
-
-    # return top_docs
+    
 
 def query():
-    question = "Any Nonprofit-Affiliated Organization specializing in media streaming?"
+    question = "Redwood Networks 66"
     fromchroma = retreiveChromaDb(question)
     fromBM25 = bm25_search(question)
     fromreciprocal = reciprocal_rank_function([fromchroma, fromBM25])
     print(fromreciprocal)
-    createPromptAndCallLLM(fromreciprocal,fromchroma ,question)
+    createPromptAndCallLLM(fromreciprocal,fromchroma ,fromBM25,question)
 
 
 def reciprocal_rank_function(docList : list[list[str]], k=60):
