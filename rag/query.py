@@ -1,6 +1,4 @@
 import chromadb
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_community.vectorstores import Chroma
 from google import genai
 import os
 from dotenv import load_dotenv 
@@ -8,6 +6,8 @@ from lib.common import simple_tokenizer, get_embedding_function
 import pickle
 import numpy as np
 from sentence_transformers import CrossEncoder
+
+
 
 PERSIST_DIR = "./chroma_db_storage"
 
@@ -154,7 +154,7 @@ def bm25_search(question, k=5):
     
 
 def query():
-    question = "who is undergoing a digital transformation"
+    question = "which contacts work at accounts that are On Hold?"
     fromchroma = retreiveChromaDb(question,15)
     fromBM25 = bm25_search(question,15)
     fromreciprocal = reciprocal_rank_function([fromchroma, fromBM25])
