@@ -4,7 +4,7 @@ from neo4j import GraphDatabase
 def buildGraph() :
     
     contacts = fetch_records("contacts","id,name,email,account_id")
-    accounts = fetch_records("accounts","id,name,description,status")
+    accounts = fetch_records("accounts","id,name,description,status,notes")
 
     URI = "neo4j://localhost:7687"
     AUTH = ("neo4j","password")
@@ -14,10 +14,18 @@ def buildGraph() :
         account_query = """
         UNWIND $batch AS row
         MERGE (a:Account {id: row.id})
-        SET a.name = row.name,
-            a.status = row.status,
-            a.description = row.description        
-        """
+        ON CREATE SET 
+            a.name = row.name, 
+            a.status = row.status, 
+            a.description = row.description,
+            a.notes = row.notes
+
+            ON MATCH SET 
+                a.name = row.name, 
+                a.status = row.status, 
+                a.description = row.description,
+                a.notes = CASE WHEN row.notes IS NOT NULL THEN row.notes ELSE a.notes END
+            """
 
         contact_query = """
                 UNWIND $batch AS row

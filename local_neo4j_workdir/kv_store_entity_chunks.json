@@ -1,0 +1,92 @@
+{
+  "Richard Feynman": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174800,
+    "update_time": 1787174800,
+    "_id": "Richard Feynman"
+  },
+  "Google": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174800,
+    "update_time": 1787174800,
+    "_id": "Google"
+  },
+  "Quantum Processors": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174800,
+    "update_time": 1787174800,
+    "_id": "Quantum Processors"
+  },
+  "Superconducting Qubits": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174800,
+    "update_time": 1787174800,
+    "_id": "Superconducting Qubits"
+  },
+  "Quantum Mechanics": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174800,
+    "update_time": 1787174800,
+    "_id": "Quantum Mechanics"
+  },
+  "Classical Computers": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174800,
+    "update_time": 1787174800,
+    "_id": "Classical Computers"
+  },
+  "IBM": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174800,
+    "update_time": 1787174800,
+    "_id": "IBM"
+  },
+  "Quantum Computing": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174800,
+    "update_time": 1787174800,
+    "_id": "Quantum Computing"
+  },
+  "1982": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174800,
+    "update_time": 1787174800,
+    "_id": "1982"
+  },
+  "Quantum Supremacy": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174800,
+    "update_time": 1787174800,
+    "_id": "Quantum Supremacy"
+  }
+}

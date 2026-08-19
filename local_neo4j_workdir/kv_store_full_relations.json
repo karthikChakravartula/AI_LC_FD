@@ -1,0 +1,62 @@
+{
+  "doc-e6a68d53e06dea38b7de86d09d52fca6": {
+    "relation_pairs": [
+      [
+        "1982",
+        "Quantum Computing"
+      ],
+      [
+        "1982",
+        "Richard Feynman"
+      ],
+      [
+        "Classical Computers",
+        "Quantum Computing"
+      ],
+      [
+        "Google",
+        "Quantum Processors"
+      ],
+      [
+        "Google",
+        "Quantum Supremacy"
+      ],
+      [
+        "Google",
+        "Superconducting Qubits"
+      ],
+      [
+        "IBM",
+        "Quantum Processors"
+      ],
+      [
+        "IBM",
+        "Quantum Supremacy"
+      ],
+      [
+        "IBM",
+        "Superconducting Qubits"
+      ],
+      [
+        "Quantum Computing",
+        "Quantum Mechanics"
+      ],
+      [
+        "Quantum Computing",
+        "Richard Feynman"
+      ],
+      [
+        "Quantum Processors",
+        "Quantum Supremacy"
+      ],
+      [
+        "Quantum Processors",
+        "Superconducting Qubits"
+      ]
+    ],
+    "count": 13,
+    "create_time": 1787174799,
+    "update_time": 1787174799,
+    "_id": "doc-e6a68d53e06dea38b7de86d09d52fca6"
+  }
+}

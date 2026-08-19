@@ -1,0 +1,19 @@
+{
+  "doc-e6a68d53e06dea38b7de86d09d52fca6": {
+    "content": "Quantum computing is a rapidly emerging technology that harnesses the laws of quantum mechanics to solve problems too complex for classical computers. \n    The field of quantum computing was originally inspired by Richard Feynman in 1982. \n    Today, companies like IBM and Google are building advanced quantum processors using superconducting qubits to achieve quantum supremacy.",
+    "file_path": "unknown_source",
+    "parse_format": "raw",
+    "content_hash": "e6a68d53e06dea38b7de86d09d52fca6",
+    "chunk_options": {
+      "chunk_token_size": 1200,
+      "fixed_token": {
+        "split_by_character": null,
+        "split_by_character_only": false,
+        "chunk_overlap_token_size": 100
+      }
+    },
+    "create_time": 1787174769,
+    "update_time": 1787174769,
+    "_id": "doc-e6a68d53e06dea38b7de86d09d52fca6"
+  }
+}

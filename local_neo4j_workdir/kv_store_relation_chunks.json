@@ -1,0 +1,119 @@
+{
+  "1982<SEP>Richard Feynman": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174801,
+    "update_time": 1787174801,
+    "_id": "1982<SEP>Richard Feynman"
+  },
+  "IBM<SEP>Quantum Processors": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174801,
+    "update_time": 1787174801,
+    "_id": "IBM<SEP>Quantum Processors"
+  },
+  "Quantum Computing<SEP>Quantum Mechanics": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174801,
+    "update_time": 1787174801,
+    "_id": "Quantum Computing<SEP>Quantum Mechanics"
+  },
+  "IBM<SEP>Superconducting Qubits": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174801,
+    "update_time": 1787174801,
+    "_id": "IBM<SEP>Superconducting Qubits"
+  },
+  "Classical Computers<SEP>Quantum Computing": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174801,
+    "update_time": 1787174801,
+    "_id": "Classical Computers<SEP>Quantum Computing"
+  },
+  "Google<SEP>Quantum Processors": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174801,
+    "update_time": 1787174801,
+    "_id": "Google<SEP>Quantum Processors"
+  },
+  "IBM<SEP>Quantum Supremacy": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174801,
+    "update_time": 1787174801,
+    "_id": "IBM<SEP>Quantum Supremacy"
+  },
+  "Quantum Computing<SEP>Richard Feynman": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174801,
+    "update_time": 1787174801,
+    "_id": "Quantum Computing<SEP>Richard Feynman"
+  },
+  "Quantum Processors<SEP>Superconducting Qubits": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174801,
+    "update_time": 1787174801,
+    "_id": "Quantum Processors<SEP>Superconducting Qubits"
+  },
+  "Google<SEP>Superconducting Qubits": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174801,
+    "update_time": 1787174801,
+    "_id": "Google<SEP>Superconducting Qubits"
+  },
+  "Quantum Processors<SEP>Quantum Supremacy": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174801,
+    "update_time": 1787174801,
+    "_id": "Quantum Processors<SEP>Quantum Supremacy"
+  },
+  "1982<SEP>Quantum Computing": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174802,
+    "update_time": 1787174802,
+    "_id": "1982<SEP>Quantum Computing"
+  },
+  "Google<SEP>Quantum Supremacy": {
+    "chunk_ids": [
+      "doc-e6a68d53e06dea38b7de86d09d52fca6-chunk-000"
+    ],
+    "count": 1,
+    "create_time": 1787174802,
+    "update_time": 1787174802,
+    "_id": "Google<SEP>Quantum Supremacy"
+  }
+}
